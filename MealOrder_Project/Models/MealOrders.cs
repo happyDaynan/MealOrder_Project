@@ -20,8 +20,8 @@ namespace MealOrder_Project.Models
         public int Type { get; set; }
         public int Status { get; set; }
         public decimal Amount { get; set; }
-        public System.DateTime OrderDatetime { get; set; }
-        public System.DateTime CreateDatetime { get; set; }
+        public System.DateTime OrderingDatetime { get; set; }
+        public System.DateTime DiningDate { get; set; }
     
         public virtual Company_Status_Detail Company_Status_Detail { get; set; }
         public virtual MealCategory_Detail MealCategory_Detail { get; set; }

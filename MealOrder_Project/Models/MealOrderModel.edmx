@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MealOrderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MealOrderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Company_Status">
           <Key>
             <PropertyRef Name="Id" />
@@ -37,8 +37,8 @@
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="Amount" Type="decimal" Precision="3" Scale="0" Nullable="false" />
-          <Property Name="OrderDatetime" Type="datetime" Nullable="false" />
-          <Property Name="CreateDatetime" Type="datetime" Nullable="false" />
+          <Property Name="OrderingDatetime" Type="datetime" Nullable="false" />
+          <Property Name="DiningDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="MealType_Detail">
           <Key>
@@ -118,8 +118,7 @@
             <End Role="MealOrders" EntitySet="MealOrders" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MealOrderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -139,7 +138,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Company_Status" Relationship="Self.FK_Company_Status_Company_Status_Detail" FromRole="Company_Status_Detail" ToRole="Company_Status" />
-          <NavigationProperty Name="MealOrders" Relationship="Self.FK_MealOrders_Company_Status_Detail" FromRole="Company_Status_Detail" ToRole="MealOrders" />
+          <NavigationProperty Name="MealOrders" Relationship="MealOrderModel.FK_MealOrders_Company_Status_Detail" FromRole="Company_Status_Detail" ToRole="MealOrders" />
         </EntityType>
         <EntityType Name="MealCategory_Detail">
           <Key>
@@ -147,23 +146,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="MealOrders" Relationship="Self.FK_MealOrders_MealCategory_Detail" FromRole="MealCategory_Detail" ToRole="MealOrders" />
-        </EntityType>
-        <EntityType Name="MealOrders">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Emp_Id" Type="Int32" />
-          <Property Name="Category" Type="Int32" Nullable="false" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
-          <Property Name="OrderDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreateDatetime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Company_Status_Detail" Relationship="Self.FK_MealOrders_Company_Status_Detail" FromRole="MealOrders" ToRole="Company_Status_Detail" />
-          <NavigationProperty Name="MealCategory_Detail" Relationship="Self.FK_MealOrders_MealCategory_Detail" FromRole="MealOrders" ToRole="MealCategory_Detail" />
-          <NavigationProperty Name="MealType_Detail" Relationship="Self.FK_MealOrders_MealType_Detail" FromRole="MealOrders" ToRole="MealType_Detail" />
+          <NavigationProperty Name="MealOrders" Relationship="MealOrderModel.FK_MealOrders_MealCategory_Detail" FromRole="MealCategory_Detail" ToRole="MealOrders" />
         </EntityType>
         <EntityType Name="MealType_Detail">
           <Key>
@@ -171,7 +154,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="MealOrders" Relationship="Self.FK_MealOrders_MealType_Detail" FromRole="MealType_Detail" ToRole="MealOrders" />
+          <NavigationProperty Name="MealOrders" Relationship="MealOrderModel.FK_MealOrders_MealType_Detail" FromRole="MealType_Detail" ToRole="MealOrders" />
         </EntityType>
         <Association Name="FK_Company_Status_Company_Status_Detail">
           <End Role="Company_Status_Detail" Type="Self.Company_Status_Detail" Multiplicity="1" />
@@ -185,9 +168,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="MyCompanyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Company_Status" EntityType="Self.Company_Status" />
+          <EntitySet Name="Company_Status_Detail" EntityType="Self.Company_Status_Detail" />
+          <EntitySet Name="MealCategory_Detail" EntityType="Self.MealCategory_Detail" />
+          <EntitySet Name="MealType_Detail" EntityType="Self.MealType_Detail" />
+          <AssociationSet Name="FK_Company_Status_Company_Status_Detail" Association="Self.FK_Company_Status_Company_Status_Detail">
+            <End Role="Company_Status_Detail" EntitySet="Company_Status_Detail" />
+            <End Role="Company_Status" EntitySet="Company_Status" />
+          </AssociationSet>
+          <EntitySet Name="MealOrders" EntityType="MealOrderModel.MealOrders" />
+          <AssociationSet Name="FK_MealOrders_Company_Status_Detail" Association="MealOrderModel.FK_MealOrders_Company_Status_Detail">
+            <End Role="Company_Status_Detail" EntitySet="Company_Status_Detail" />
+            <End Role="MealOrders" EntitySet="MealOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealOrders_MealCategory_Detail" Association="MealOrderModel.FK_MealOrders_MealCategory_Detail">
+            <End Role="MealCategory_Detail" EntitySet="MealCategory_Detail" />
+            <End Role="MealOrders" EntitySet="MealOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealOrders_MealType_Detail" Association="MealOrderModel.FK_MealOrders_MealType_Detail">
+            <End Role="MealType_Detail" EntitySet="MealType_Detail" />
+            <End Role="MealOrders" EntitySet="MealOrders" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="MealOrders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Emp_Id" Type="Int32" />
+          <Property Name="Category" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="3" Scale="0" />
+          <Property Name="OrderingDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DiningDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Company_Status_Detail" Relationship="MealOrderModel.FK_MealOrders_Company_Status_Detail" FromRole="MealOrders" ToRole="Company_Status_Detail" />
+          <NavigationProperty Name="MealCategory_Detail" Relationship="MealOrderModel.FK_MealOrders_MealCategory_Detail" FromRole="MealOrders" ToRole="MealCategory_Detail" />
+          <NavigationProperty Name="MealType_Detail" Relationship="MealOrderModel.FK_MealOrders_MealType_Detail" FromRole="MealOrders" ToRole="MealType_Detail" />
+        </EntityType>
         <Association Name="FK_MealOrders_Company_Status_Detail">
-          <End Role="Company_Status_Detail" Type="Self.Company_Status_Detail" Multiplicity="1" />
-          <End Role="MealOrders" Type="Self.MealOrders" Multiplicity="*" />
+          <End Type="MealOrderModel.Company_Status_Detail" Role="Company_Status_Detail" Multiplicity="1" />
+          <End Type="MealOrderModel.MealOrders" Role="MealOrders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Company_Status_Detail">
               <PropertyRef Name="Id" />
@@ -198,8 +220,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MealOrders_MealCategory_Detail">
-          <End Role="MealCategory_Detail" Type="Self.MealCategory_Detail" Multiplicity="1" />
-          <End Role="MealOrders" Type="Self.MealOrders" Multiplicity="*" />
+          <End Type="MealOrderModel.MealCategory_Detail" Role="MealCategory_Detail" Multiplicity="1" />
+          <End Type="MealOrderModel.MealOrders" Role="MealOrders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MealCategory_Detail">
               <PropertyRef Name="Id" />
@@ -210,8 +232,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MealOrders_MealType_Detail">
-          <End Role="MealType_Detail" Type="Self.MealType_Detail" Multiplicity="1" />
-          <End Role="MealOrders" Type="Self.MealOrders" Multiplicity="*" />
+          <End Type="MealOrderModel.MealType_Detail" Role="MealType_Detail" Multiplicity="1" />
+          <End Type="MealOrderModel.MealOrders" Role="MealOrders" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MealType_Detail">
               <PropertyRef Name="Id" />
@@ -221,29 +243,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="MyCompanyEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Company_Status" EntityType="Self.Company_Status" />
-          <EntitySet Name="Company_Status_Detail" EntityType="Self.Company_Status_Detail" />
-          <EntitySet Name="MealCategory_Detail" EntityType="Self.MealCategory_Detail" />
-          <EntitySet Name="MealOrders" EntityType="Self.MealOrders" />
-          <EntitySet Name="MealType_Detail" EntityType="Self.MealType_Detail" />
-          <AssociationSet Name="FK_Company_Status_Company_Status_Detail" Association="Self.FK_Company_Status_Company_Status_Detail">
-            <End Role="Company_Status_Detail" EntitySet="Company_Status_Detail" />
-            <End Role="Company_Status" EntitySet="Company_Status" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MealOrders_Company_Status_Detail" Association="Self.FK_MealOrders_Company_Status_Detail">
-            <End Role="Company_Status_Detail" EntitySet="Company_Status_Detail" />
-            <End Role="MealOrders" EntitySet="MealOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MealOrders_MealCategory_Detail" Association="Self.FK_MealOrders_MealCategory_Detail">
-            <End Role="MealCategory_Detail" EntitySet="MealCategory_Detail" />
-            <End Role="MealOrders" EntitySet="MealOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MealOrders_MealType_Detail" Association="Self.FK_MealOrders_MealType_Detail">
-            <End Role="MealType_Detail" EntitySet="MealType_Detail" />
-            <End Role="MealOrders" EntitySet="MealOrders" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -275,25 +274,25 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="MealOrders">
-            <EntityTypeMapping TypeName="MealOrderModel.MealOrders">
-              <MappingFragment StoreEntitySet="MealOrders">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="OrderDatetime" ColumnName="OrderDatetime" />
-                <ScalarProperty Name="CreateDatetime" ColumnName="CreateDatetime" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="MealType_Detail">
             <EntityTypeMapping TypeName="MealOrderModel.MealType_Detail">
               <MappingFragment StoreEntitySet="MealType_Detail">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MealOrders">
+            <EntityTypeMapping TypeName="MealOrderModel.MealOrders">
+              <MappingFragment StoreEntitySet="MealOrders">
+                <ScalarProperty Name="DiningDate" ColumnName="DiningDate" />
+                <ScalarProperty Name="OrderingDatetime" ColumnName="OrderingDatetime" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
