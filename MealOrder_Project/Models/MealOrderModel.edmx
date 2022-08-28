@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MealOrderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Company_Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Class_Id" Type="int" Nullable="false" />
+          <Property Name="Status_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Company_Status_Detail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MealCategory_Detail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MealOrders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Emp_Id" Type="int" />
+          <Property Name="Category" Type="int" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="OrderDatetime" Type="datetime" Nullable="false" />
+          <Property Name="CreateDatetime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MealType_Detail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Company_Status_Company_Status_Detail">
+          <End Role="Company_Status_Detail" Type="Self.Company_Status_Detail" Multiplicity="1" />
+          <End Role="Company_Status" Type="Self.Company_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company_Status_Detail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company_Status">
+              <PropertyRef Name="Status_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MealOrders_Company_Status_Detail">
+          <End Role="Company_Status_Detail" Type="Self.Company_Status_Detail" Multiplicity="1" />
+          <End Role="MealOrders" Type="Self.MealOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company_Status_Detail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MealOrders">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MealOrders_MealCategory_Detail">
+          <End Role="MealCategory_Detail" Type="Self.MealCategory_Detail" Multiplicity="1" />
+          <End Role="MealOrders" Type="Self.MealOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MealCategory_Detail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MealOrders">
+              <PropertyRef Name="Category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MealOrders_MealType_Detail">
+          <End Role="MealType_Detail" Type="Self.MealType_Detail" Multiplicity="1" />
+          <End Role="MealOrders" Type="Self.MealOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MealType_Detail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MealOrders">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MealOrderModelStoreContainer">
+          <EntitySet Name="Company_Status" EntityType="Self.Company_Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Company_Status_Detail" EntityType="Self.Company_Status_Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MealCategory_Detail" EntityType="Self.MealCategory_Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MealOrders" EntityType="Self.MealOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MealType_Detail" EntityType="Self.MealType_Detail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Company_Status_Company_Status_Detail" Association="Self.FK_Company_Status_Company_Status_Detail">
+            <End Role="Company_Status_Detail" EntitySet="Company_Status_Detail" />
+            <End Role="Company_Status" EntitySet="Company_Status" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealOrders_Company_Status_Detail" Association="Self.FK_MealOrders_Company_Status_Detail">
+            <End Role="Company_Status_Detail" EntitySet="Company_Status_Detail" />
+            <End Role="MealOrders" EntitySet="MealOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealOrders_MealCategory_Detail" Association="Self.FK_MealOrders_MealCategory_Detail">
+            <End Role="MealCategory_Detail" EntitySet="MealCategory_Detail" />
+            <End Role="MealOrders" EntitySet="MealOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealOrders_MealType_Detail" Association="Self.FK_MealOrders_MealType_Detail">
+            <End Role="MealType_Detail" EntitySet="MealType_Detail" />
+            <End Role="MealOrders" EntitySet="MealOrders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MealOrderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company_Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Class_Id" Type="Int32" Nullable="false" />
+          <Property Name="Status_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company_Status_Detail" Relationship="Self.FK_Company_Status_Company_Status_Detail" FromRole="Company_Status" ToRole="Company_Status_Detail" />
+        </EntityType>
+        <EntityType Name="Company_Status_Detail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Company_Status" Relationship="Self.FK_Company_Status_Company_Status_Detail" FromRole="Company_Status_Detail" ToRole="Company_Status" />
+          <NavigationProperty Name="MealOrders" Relationship="Self.FK_MealOrders_Company_Status_Detail" FromRole="Company_Status_Detail" ToRole="MealOrders" />
+        </EntityType>
+        <EntityType Name="MealCategory_Detail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="MealOrders" Relationship="Self.FK_MealOrders_MealCategory_Detail" FromRole="MealCategory_Detail" ToRole="MealOrders" />
+        </EntityType>
+        <EntityType Name="MealOrders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Emp_Id" Type="Int32" />
+          <Property Name="Category" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="OrderDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Company_Status_Detail" Relationship="Self.FK_MealOrders_Company_Status_Detail" FromRole="MealOrders" ToRole="Company_Status_Detail" />
+          <NavigationProperty Name="MealCategory_Detail" Relationship="Self.FK_MealOrders_MealCategory_Detail" FromRole="MealOrders" ToRole="MealCategory_Detail" />
+          <NavigationProperty Name="MealType_Detail" Relationship="Self.FK_MealOrders_MealType_Detail" FromRole="MealOrders" ToRole="MealType_Detail" />
+        </EntityType>
+        <EntityType Name="MealType_Detail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="MealOrders" Relationship="Self.FK_MealOrders_MealType_Detail" FromRole="MealType_Detail" ToRole="MealOrders" />
+        </EntityType>
+        <Association Name="FK_Company_Status_Company_Status_Detail">
+          <End Role="Company_Status_Detail" Type="Self.Company_Status_Detail" Multiplicity="1" />
+          <End Role="Company_Status" Type="Self.Company_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company_Status_Detail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Company_Status">
+              <PropertyRef Name="Status_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MealOrders_Company_Status_Detail">
+          <End Role="Company_Status_Detail" Type="Self.Company_Status_Detail" Multiplicity="1" />
+          <End Role="MealOrders" Type="Self.MealOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company_Status_Detail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MealOrders">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MealOrders_MealCategory_Detail">
+          <End Role="MealCategory_Detail" Type="Self.MealCategory_Detail" Multiplicity="1" />
+          <End Role="MealOrders" Type="Self.MealOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MealCategory_Detail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MealOrders">
+              <PropertyRef Name="Category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MealOrders_MealType_Detail">
+          <End Role="MealType_Detail" Type="Self.MealType_Detail" Multiplicity="1" />
+          <End Role="MealOrders" Type="Self.MealOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MealType_Detail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MealOrders">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MyCompanyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Company_Status" EntityType="Self.Company_Status" />
+          <EntitySet Name="Company_Status_Detail" EntityType="Self.Company_Status_Detail" />
+          <EntitySet Name="MealCategory_Detail" EntityType="Self.MealCategory_Detail" />
+          <EntitySet Name="MealOrders" EntityType="Self.MealOrders" />
+          <EntitySet Name="MealType_Detail" EntityType="Self.MealType_Detail" />
+          <AssociationSet Name="FK_Company_Status_Company_Status_Detail" Association="Self.FK_Company_Status_Company_Status_Detail">
+            <End Role="Company_Status_Detail" EntitySet="Company_Status_Detail" />
+            <End Role="Company_Status" EntitySet="Company_Status" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealOrders_Company_Status_Detail" Association="Self.FK_MealOrders_Company_Status_Detail">
+            <End Role="Company_Status_Detail" EntitySet="Company_Status_Detail" />
+            <End Role="MealOrders" EntitySet="MealOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealOrders_MealCategory_Detail" Association="Self.FK_MealOrders_MealCategory_Detail">
+            <End Role="MealCategory_Detail" EntitySet="MealCategory_Detail" />
+            <End Role="MealOrders" EntitySet="MealOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MealOrders_MealType_Detail" Association="Self.FK_MealOrders_MealType_Detail">
+            <End Role="MealType_Detail" EntitySet="MealType_Detail" />
+            <End Role="MealOrders" EntitySet="MealOrders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MealOrderModelStoreContainer" CdmEntityContainer="MyCompanyEntities">
+          <EntitySetMapping Name="Company_Status">
+            <EntityTypeMapping TypeName="MealOrderModel.Company_Status">
+              <MappingFragment StoreEntitySet="Company_Status">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Class_Id" ColumnName="Class_Id" />
+                <ScalarProperty Name="Status_Id" ColumnName="Status_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Company_Status_Detail">
+            <EntityTypeMapping TypeName="MealOrderModel.Company_Status_Detail">
+              <MappingFragment StoreEntitySet="Company_Status_Detail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MealCategory_Detail">
+            <EntityTypeMapping TypeName="MealOrderModel.MealCategory_Detail">
+              <MappingFragment StoreEntitySet="MealCategory_Detail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MealOrders">
+            <EntityTypeMapping TypeName="MealOrderModel.MealOrders">
+              <MappingFragment StoreEntitySet="MealOrders">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Emp_Id" ColumnName="Emp_Id" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="OrderDatetime" ColumnName="OrderDatetime" />
+                <ScalarProperty Name="CreateDatetime" ColumnName="CreateDatetime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MealType_Detail">
+            <EntityTypeMapping TypeName="MealOrderModel.MealType_Detail">
+              <MappingFragment StoreEntitySet="MealType_Detail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
