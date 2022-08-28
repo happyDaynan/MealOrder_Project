@@ -4,4 +4,76 @@
 }
 
 <h2>訂單明細</h2>
+<hr>
+<button id="createorder_btn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#CreateOrderModal">我要訂餐</button>
+<br>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">用餐日期</th>
+            <th scope="col">用餐時段</th>
+            <th scope="col">員工編號</th>
+            <th scope="col">員工姓名</th>
+            <th scope="col">餐點類別</th>
+            <th scope="col">訂單狀態</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2022-09-12</td>
+            <td>午餐</td>
+            <td>110041201</td>
+            <td>AustinWu</td>
+            <td>素食</td>
+            <td>未取餐</td>
+        </tr>
+
+    </tbody>
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="CreateOrderModal" tabindex="-1" aria-labelledby="CreateOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateOrderModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">                
+                <button id="modalCreate_btn"type="button" class="btn btn-primary"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        const Create_modal = document.getElementById('CreateOrderModal');
+
+        Create_modal.addEventListener('show.bs.modal', function (event) {
+
+            // 取得按鈕
+            const button = event.relatedTarget;
+            const recipient = button.getAttribute('data-bs-whatever')
+
+            const modal = $(this);
+            modal.find('.modal-title').text(button.innerText);
+            modal.find('#modalCreate_btn').text('新增');
+
+            //const modalTitle = Create_modal.querySelector('.modal-title');
+            //modalTitle.textContent = button.innerText;
+
+
+
+        });
+
+
+    });
+
+</script>
 
