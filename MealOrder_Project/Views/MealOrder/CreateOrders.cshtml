@@ -6,34 +6,35 @@
 
 @*<h2>訂餐</h2>*@
 
-<div class="input-group mb-3">
-    <span class="input-group-text">起訖時間</span>
-    <input type="text" id="StartDate" class="form-control" data-provide="datepicker">    
-    <span class="input-group-text">~</span>
-    <input type="text" id="EndDate" class="form-control" data-provide="datepicker">
-</div>
+<form id="form_CreateOrder">
+    <div class="input-group mb-3">
+        <span class="input-group-text">起訖時間</span>
+        <input type="text" id="StartDate" class="form-control" data-provide="datepicker">
+        <span class="input-group-text">~</span>
+        <input type="text" id="EndDate" class="form-control" data-provide="datepicker">
+    </div>
 
 
-<div class="input-group mb-3">
-    <label class="input-group-text" for="category">餐點別</label>
-    @Html.DropDownList("category", (IEnumerable<SelectListItem>)ViewBag.category, htmlAttributes: new { @class = "form-select" })
-</div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="category">餐點別</label>
+        @Html.DropDownList("category", (IEnumerable<SelectListItem>)ViewBag.category, htmlAttributes: new { @class = "form-select" })
+    </div>
 
-<div class="input-group mb-3">
-    <label class="input-group-text" for="type">用餐時段</label>
-    @Html.DropDownList("type", (IEnumerable<SelectListItem>)ViewBag.type, htmlAttributes: new { @class = "form-select" })
-</div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="type">用餐時段</label>
+        @Html.DropDownList("type", (IEnumerable<SelectListItem>)ViewBag.type, htmlAttributes: new { @class = "form-select" })
+    </div>
 
-<div class="input-group mb-3">
-    <span class="input-group-text">排除星期六</span>
-    @Html.DropDownList("sat", (IEnumerable<SelectListItem>)ViewBag.yesorno, htmlAttributes: new { @class = "form-select" })
-    <span class="input-group-text">排除星期日</span>
-    @Html.DropDownList("sun", (IEnumerable<SelectListItem>)ViewBag.yesorno, htmlAttributes: new { @class = "form-select" })
-</div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">排除星期六</span>
+        @Html.DropDownList("sat", (IEnumerable<SelectListItem>)ViewBag.yesorno, htmlAttributes: new { @class = "form-select" })
+        <span class="input-group-text">排除星期日</span>
+        @Html.DropDownList("sun", (IEnumerable<SelectListItem>)ViewBag.yesorno, htmlAttributes: new { @class = "form-select" })
+    </div>
 
-<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+</form>
 
-
+@*<script src="~/Scripts/jquery-3.6.0.min.js"></script>*@
 <script>
 
     $(document).ready(function () {

@@ -64,16 +64,12 @@
 </div>
 
 
-
-
-
-
-
 <script>
     document.addEventListener("DOMContentLoaded", () => {
 
         const Create_modal = document.getElementById('CreateOrderModal');
-        const Modalcreate_btn = document.getElementById('modalCreate_btn');
+        const Modalcreate_btn = document.getElementById('modalCreate_btn');     
+        
 
         Create_modal.addEventListener('show.bs.modal', function (event) {
 
@@ -97,12 +93,19 @@
 
         });
 
-
-        Modalcreate_btn.addEventListener('click', () => {
-            console.log('新增按鈕被按');
-        });
+        Modalcreate_btn.addEventListener('click', callbackFormdata, false);
 
 
     });
+
+    function callbackFormdata() {
+
+        // Convert From Data to JavaScroipt Object
+        const Createorder_form = $('#form_CreateOrder').serializeArray();       
+        const formDataObj = {};
+
+        Createorder_form.forEach((value, key) => formDataObj[value.name] = (value.value).trim());        
+        
+    }
 
 </script>
