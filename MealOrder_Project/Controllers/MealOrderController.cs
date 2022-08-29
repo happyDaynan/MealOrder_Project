@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using MealOrder_Project.Models;
+using MealOrder_Project;
 
 
 namespace MealOrder_Project.Controllers
 {
     public class MealOrderController : Controller
     {
-        private MyCompanyEntities CompanyEntities = new MyCompanyEntities();
+        private readonly MyCompanyEntities CompanyEntities = new MyCompanyEntities();
 
         // Orders Detail
         public ActionResult OrdersDetail()
@@ -24,6 +25,10 @@ namespace MealOrder_Project.Controllers
         // Create Orders
         public ActionResult CreateOrders()
         {
+            ViewBag.type = GetSelectListItem.Type();
+            ViewBag.category = GetSelectListItem.Category();
+            ViewBag.yesorno = GetSelectListItem.YesorNo();
+            
             return View();
         }
 

@@ -24,6 +24,11 @@
                                 <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">訂餐明細</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("新增訂單", "CreateOrders", new { @class = "nav-link align-middle px-0" })
+
+
+                        </li>
                         <li>
                             <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
                                 <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">用戶管理</span>
@@ -69,16 +74,17 @@
         </div>
     </div>
 
-    
+
 
 
 
 
     <script src="~/Scripts/jquery-3.6.0.min.js"></script>
-
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
 
-    @*@RenderSection("scripts", required: false)*@
+    @RenderSection("scripts", required: false)
 
 
 

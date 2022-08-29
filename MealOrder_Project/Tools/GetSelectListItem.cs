@@ -3,7 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using MealOrder_Project.Models;
 
-namespace MealOrder_Project.Tools
+namespace MealOrder_Project
 {
     public class GetSelectListItem
     {
@@ -13,22 +13,19 @@ namespace MealOrder_Project.Tools
             {
                 var _CategoryList = CompanyEntities.MealCategory_Detail.ToArray();
 
-                List<SelectListItem> _CategorySelectListItem = new List<SelectListItem>();
+                List<SelectListItem> _CategorySelectListItem = new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "--請選擇--", Value = "", Selected = true}
+                };
 
                 foreach (var item in _CategoryList)
                 {
                     _CategorySelectListItem.Add(new SelectListItem{ 
                             Text = item.Category,
-                            Value = item.Id.ToString()                    
+                            Value = item.Id.ToString(),
+                            Selected = false
                     });
-                }
-
-                _CategorySelectListItem.Add(new SelectListItem
-                {
-                    Text = "--請選擇--",
-                    Value = null,
-                    Selected = true
-                });
+                }                
 
                 return _CategorySelectListItem;
 
@@ -43,27 +40,38 @@ namespace MealOrder_Project.Tools
             {
                 var _TypeList = CompanyEntities.MealType_Detail.ToArray();
 
-                List<SelectListItem> _TypeSelectListItem = new List<SelectListItem>();
+                List<SelectListItem> _TypeSelectListItem = new List<SelectListItem>
+                {
+                    new SelectListItem{ Text = "--請選擇--", Value = "", Selected = true }
+                };
 
-                foreach(var item in _TypeList)
+                foreach (var item in _TypeList)
                 {
                     _TypeSelectListItem.Add(new SelectListItem { 
                         
                         Text = item.Name,
-                        Value = item.Id.ToString()
-                    
-                    });
-                }
+                        Value = item.Id.ToString(),
+                        Selected = false
 
-                _TypeSelectListItem.Add(new SelectListItem
-                {
-                    Text = "--請選擇--",
-                    Value = null,
-                    Selected = true
-                });
+                    });
+                }               
 
                 return _TypeSelectListItem;
             }
         }
+
+
+        // Yes or No
+        public static List<SelectListItem> YesorNo()
+        {
+            List<SelectListItem> _YesorNoSelectListItem = new List<SelectListItem>
+            {
+                new SelectListItem{ Text = "是", Value = "true", Selected = true },
+                new SelectListItem{ Text = "否", Value = "false", Selected = false }
+            };
+
+            return _YesorNoSelectListItem;
+        }
+
     }
 }
