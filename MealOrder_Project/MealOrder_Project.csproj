@@ -199,6 +199,7 @@
       <DependentUpon>MealOrderModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\GetSelectListItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
