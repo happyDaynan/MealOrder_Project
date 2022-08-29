@@ -10,7 +10,7 @@
 <br>
 
 <table class="table">
-    
+
     <tr>
         <th scope="col">用餐日期</th>
         <th scope="col">用餐時段</th>
@@ -34,24 +34,75 @@
         }
         else
         {
-            @*@foreach (var item in Model) { 
-                <td>@item.DiningDate</td>
-                <td>@item.Type</td>
-                <td>@item.Emp_Id</td>
-            }*@
+            @*@foreach (var item in Model) {
+                    <td>@item.DiningDate</td>
+                    <td>@item.Type</td>
+                    <td>@item.Emp_Id</td>
+                }*@
 
         }
     </tr>
-    
-
-    @*@foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @item.Emp_Id
-            </td>
-            
-        </tr>
-    }*@
 
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="CreateOrderModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="CreateOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateOrderModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button id="modalCreate_btn" type="button" class="btn btn-primary"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const Create_modal = document.getElementById('CreateOrderModal');
+        const Modalcreate_btn = document.getElementById('modalCreate_btn');
+
+        Create_modal.addEventListener('show.bs.modal', function (event) {
+
+            // 取得點擊到的按鈕
+            const button = event.relatedTarget;
+            const modal = $(this);
+
+            // Update the modal's content.
+            const loaddata = $.ajax({
+                url: '/MealOrder/CreateOrders/',
+                type: 'GET',
+                success: function (res) {
+
+                    modal.find('.modal-body').html(res);
+                }
+            });         
+            
+            modal.find('.modal-title').text(button.innerText);
+            modal.find('#modalCreate_btn').text('新增');
+            
+
+        });
+
+
+        Modalcreate_btn.addEventListener('click', () => {
+            console.log('新增按鈕被按');
+        });
+
+
+    });
+
+</script>

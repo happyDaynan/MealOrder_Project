@@ -29,7 +29,7 @@ namespace MealOrder_Project.Controllers
             ViewBag.category = GetSelectListItem.Category();
             ViewBag.yesorno = GetSelectListItem.YesorNo();
             
-            return View();
+            return PartialView();
         }
 
        
