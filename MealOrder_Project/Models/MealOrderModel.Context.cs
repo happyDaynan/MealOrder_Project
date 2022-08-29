@@ -27,9 +27,9 @@ namespace MealOrder_Project.Models
     
         public virtual DbSet<Company_Status> Company_Status { get; set; }
         public virtual DbSet<Company_Status_Detail> Company_Status_Detail { get; set; }
-        public virtual DbSet<MealCategory_Detail> MealCategory_Detail { get; set; }
-        public virtual DbSet<MealType_Detail> MealType_Detail { get; set; }
         public virtual DbSet<MealOrders> MealOrders { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
+        public virtual DbSet<MealCategory_Detail> MealCategory_Detail { get; set; }
+        public virtual DbSet<MealType_Detail> MealType_Detail { get; set; }
     }
 }
