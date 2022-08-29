@@ -171,6 +171,9 @@
     <Compile Include="Models\Company_Status_Detail.cs">
       <DependentUpon>MealOrderModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Employee.cs">
+      <DependentUpon>MealOrderModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MealCategory_Detail.cs">
       <DependentUpon>MealOrderModel.tt</DependentUpon>
     </Compile>

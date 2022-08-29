@@ -26,5 +26,6 @@ namespace MealOrder_Project.Models
         public virtual Company_Status_Detail Company_Status_Detail { get; set; }
         public virtual MealCategory_Detail MealCategory_Detail { get; set; }
         public virtual MealType_Detail MealType_Detail { get; set; }
+        public virtual Employee Employee { get; set; }
     }
 }
