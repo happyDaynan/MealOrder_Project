@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ed00f044b6834a578201e9260a2818df" Name="Diagram1">
+        <EntityTypeShape EntityType="MealOrderModel.Company_Status" Width="1.5" PointX="11.625" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MealOrderModel.Company_Status_Detail" Width="1.5" PointX="8.875" PointY="3.625" IsExpanded="true" />
+        <AssociationConnector Association="MealOrderModel.FK_Company_Status_Company_Status_Detail" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MealOrderModel.MealOrders" Width="1.5" PointX="5.875" PointY="2.875" />
+        <AssociationConnector Association="MealOrderModel.FK_MealOrders_Company_Status_Detail" />
+        <EntityTypeShape EntityType="MealOrderModel.Employee" Width="1.5" PointX="3.25" PointY="3.625" />
+        <AssociationConnector Association="MealOrderModel.FK_MealOrders_Company_Status_Detail1" />
+        <EntityTypeShape EntityType="MealOrderModel.MealCategory_Detail" Width="1.5" PointX="5.875" PointY="6.375" />
+        <EntityTypeShape EntityType="MealOrderModel.MealType_Detail" Width="1.5" PointX="5.875" PointY="0.875" />
+        <AssociationConnector Association="MealOrderModel.FK_MealOrders_MealCategory_Detail" />
+        <AssociationConnector Association="MealOrderModel.FK_MealOrders_MealType_Detail" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

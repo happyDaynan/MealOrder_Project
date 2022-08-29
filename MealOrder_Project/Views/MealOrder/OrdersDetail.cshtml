@@ -1,0 +1,57 @@
+﻿@model IEnumerable<MealOrder_Project.Models.MealOrders>
+
+@{
+    ViewBag.Title = "OrdersDetail";
+}
+
+<h2>訂單明細</h2>
+<hr>
+<button id="createorder_btn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#CreateOrderModal">我要訂餐</button>
+<br>
+
+<table class="table">
+    
+    <tr>
+        <th scope="col">用餐日期</th>
+        <th scope="col">用餐時段</th>
+        <th scope="col">員工編號</th>
+        <th scope="col">員工姓名</th>
+        <th scope="col">餐點類別</th>
+        <th scope="col">訂單狀態</th>
+        <th scope="col">金額</th>
+
+    </tr>
+    <tr>
+        @if (Model.Count().Equals(0))
+        {
+            <td>2022-09-12</td>
+            <td>午餐</td>
+            <td>110041201</td>
+            <td>AustinWu</td>
+            <td>素食</td>
+            <td>未取餐</td>
+            <td>40</td>
+        }
+        else
+        {
+            @*@foreach (var item in Model) { 
+                <td>@item.DiningDate</td>
+                <td>@item.Type</td>
+                <td>@item.Emp_Id</td>
+            }*@
+
+        }
+    </tr>
+    
+
+    @*@foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Emp_Id
+            </td>
+            
+        </tr>
+    }*@
+
+</table>
