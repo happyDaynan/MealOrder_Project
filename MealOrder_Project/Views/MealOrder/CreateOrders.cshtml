@@ -9,9 +9,9 @@
 <form id="form_CreateOrder">
     <div class="input-group mb-3">
         <span class="input-group-text">起訖時間</span>
-        <input type="text" id="StartDate" class="form-control" data-provide="datepicker">
+        <input type="text" id="StartDate", name="StartDate" class="form-control" data-provide="datepicker">
         <span class="input-group-text">~</span>
-        <input type="text" id="EndDate" class="form-control" data-provide="datepicker">
+        <input type="text" id="EndDate" name="EndDate" class="form-control" data-provide="datepicker">
     </div>
 
 
@@ -34,7 +34,7 @@
 
 </form>
 
-@*<script src="~/Scripts/jquery-3.6.0.min.js"></script>*@
+
 <script>
 
     $(document).ready(function () {

@@ -296,6 +296,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\GetSelectListItem.cs" />
+    <Compile Include="Tools\OrdersGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

@@ -10,18 +10,36 @@
 <br>
 
 <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">用餐日期</th>
+            <th scope="col">用餐時段</th>
+            <th scope="col">員工編號</th>
+            <th scope="col">員工姓名</th>
+            <th scope="col">餐點類別</th>
+            <th scope="col">訂單狀態</th>
+            <th scope="col">金額</th>
+        </tr>        
+    </thead>
+    <tbody>
+        
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DiningDate</td>
+                <td>@item.Type</td>
+                <td>@item.Employee.Code</td>
+                <td>@item.Employee.Name</td>
+                <td>@item.MealCategory_Detail.Category</td>
+                <td>@item.Status</td>
+                <td>@item.Amount.ToString()</td>
+            </tr>
+            
+        }       
 
-    <tr>
-        <th scope="col">用餐日期</th>
-        <th scope="col">用餐時段</th>
-        <th scope="col">員工編號</th>
-        <th scope="col">員工姓名</th>
-        <th scope="col">餐點類別</th>
-        <th scope="col">訂單狀態</th>
-        <th scope="col">金額</th>
-
-    </tr>
-    <tr>
+    </tbody>
+    
+    @*<tr>
         @if (Model.Count().Equals(0))
         {
             <td>2022-09-12</td>
@@ -34,14 +52,18 @@
         }
         else
         {
-            @*@foreach (var item in Model) {
-                    <td>@item.DiningDate</td>
-                    <td>@item.Type</td>
-                    <td>@item.Emp_Id</td>
-                }*@
-
+            foreach (var item in Model)
+            {
+                <td>@item.DiningDate</td>
+                <td>@item.Type</td>
+                <td>@item.Employee.Code</td>
+                <td>@item.Employee.Name</td>
+                <td>@item.MealCategory_Detail.Category</td>
+                <td>@item.Status</td>
+                <td>@item.Amount.ToString()</td>
+            }
         }
-    </tr>
+    </tr>*@
 
 </table>
 
@@ -69,43 +91,59 @@
 
         const Create_modal = document.getElementById('CreateOrderModal');
         const Modalcreate_btn = document.getElementById('modalCreate_btn');     
-        
 
-        Create_modal.addEventListener('show.bs.modal', function (event) {
-
-            // 取得點擊到的按鈕
-            const button = event.relatedTarget;
-            const modal = $(this);
-
-            // Update the modal's content.
-            const loaddata = $.ajax({
-                url: '/MealOrder/CreateOrders/',
-                type: 'GET',
-                success: function (res) {
-
-                    modal.find('.modal-body').html(res);
-                }
-            });         
-            
-            modal.find('.modal-title').text(button.innerText);
-            modal.find('#modalCreate_btn').text('新增');
-            
-
-        });
+        Create_modal.addEventListener('show.bs.modal', loadCreateOrderpage, false);        
 
         Modalcreate_btn.addEventListener('click', callbackFormdata, false);
 
 
     });
 
+    function loadCreateOrderpage(event) {
+
+        // 取得點擊到的按鈕
+        const button = event.relatedTarget;
+        const modal = $(this);
+
+        // Update the modal's content.
+        const loaddata = $.ajax({
+            url: '/MealOrder/CreateOrders/',
+            type: 'GET',
+            success: function (res) {
+
+                modal.find('.modal-body').html(res);
+            }
+        });
+
+        modal.find('.modal-title').text(button.innerText);
+        modal.find('#modalCreate_btn').text('新增');
+    }
+
     function callbackFormdata() {
 
         // Convert From Data to JavaScroipt Object
         const Createorder_form = $('#form_CreateOrder').serializeArray();       
-        const formDataObj = {};
+        let formDataObj = {};
 
         Createorder_form.forEach((value, key) => formDataObj[value.name] = (value.value).trim());        
-        
+
+        $.ajax({
+            url: '/MealOrder/CreateOrders/',
+            type: 'POST',
+            data: { formdata: JSON.stringify(formDataObj) },
+            success: function (res) {
+
+                if (res.success == true) {
+
+                    alert('新增成功');
+                    location.reload();
+
+                } else {
+                    return alert(`res.responseText`);
+                }
+            }
+
+        });        
     }
 
 </script>

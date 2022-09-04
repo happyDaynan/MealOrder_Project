@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using MealOrder_Project.Models;
-using MealOrder_Project;
+using MealOrder_Project.Tools;
+using Newtonsoft.Json;
 
 
 namespace MealOrder_Project.Controllers
@@ -32,6 +33,43 @@ namespace MealOrder_Project.Controllers
             return PartialView();
         }
 
-       
+        [HttpPost]
+        public ActionResult CreateOrders(string formdata)
+        {
+            string restext = "";
+            bool success_bool = true;
+
+            // Convert string to DictionaryObject
+            var Formdata = JsonConvert.DeserializeObject<Dictionary<string, string>>(formdata);
+            
+            OrdersGenerator neworders = new OrdersGenerator
+            {
+                Start = DateTime.Parse(Formdata["StartDate"]),
+                End = DateTime.Parse(Formdata["EndDate"]),
+                Category = int.Parse(Formdata["category"]),
+                Type = int.Parse(Formdata["type"]),
+                Sat = bool.Parse(Formdata["sat"]),
+                Sun = bool.Parse(Formdata["sun"])
+            };
+
+            List<MealOrders> NewOrders = neworders.NewOrders();
+
+            CompanyEntities.MealOrders.AddRange(NewOrders);
+
+            try
+            {
+                CompanyEntities.SaveChanges();
+            }
+            catch
+            {
+                success_bool = false;
+                restext = "訂單新增失敗，請聯絡相關單位。";
+            }
+
+            return Json(new { success = success_bool, responseText = restext }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
     }
 }

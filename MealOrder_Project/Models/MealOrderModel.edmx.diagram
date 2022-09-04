@@ -12,10 +12,10 @@
         <AssociationConnector Association="MealOrderModel.FK_MealOrders_Company_Status_Detail" />
         <EntityTypeShape EntityType="MealOrderModel.Employee" Width="1.5" PointX="3.25" PointY="3.625" />
         <AssociationConnector Association="MealOrderModel.FK_MealOrders_Company_Status_Detail1" />
-        <EntityTypeShape EntityType="MealOrderModel.MealCategory_Detail" Width="1.5" PointX="5.875" PointY="6.375" />
         <EntityTypeShape EntityType="MealOrderModel.MealType_Detail" Width="1.5" PointX="5.875" PointY="0.875" />
-        <AssociationConnector Association="MealOrderModel.FK_MealOrders_MealCategory_Detail" />
         <AssociationConnector Association="MealOrderModel.FK_MealOrders_MealType_Detail" />
+        <EntityTypeShape EntityType="MealOrderModel.MealCategory_Detail" Width="1.5" PointX="5.875" PointY="6.75" />
+        <AssociationConnector Association="MealOrderModel.FK_MealOrders_MealCategory_Detail" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
