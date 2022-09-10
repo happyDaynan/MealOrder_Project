@@ -63,9 +63,10 @@ namespace MealOrder_Project.Controllers
             }
             catch
             {
-                success_bool = false;
-                restext = "訂單新增失敗，請聯絡相關單位。";
+                success_bool = false;                
             }
+
+            restext = (success_bool)? "訂餐成功。":"訂單新增失敗，請聯絡相關單位。";
 
             return Json(new { success = success_bool, responseText = restext }, JsonRequestBehavior.AllowGet);
         }
