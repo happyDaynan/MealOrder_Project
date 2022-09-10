@@ -1,37 +1,37 @@
-﻿@model MealOrder_Project.Models.MealOrders
+﻿@*@model MealOrder_Project.Models.MealOrders*@
 
-@{
+@*@{
     ViewBag.Title = "訂餐";
-}
+}*@
 
 @*<h2>訂餐</h2>*@
 
-<div class="input-group mb-3">
-    <span class="input-group-text">起訖時間</span>
-    <input type="text" id="StartDate" class="form-control" data-provide="datepicker">    
-    <span class="input-group-text">~</span>
-    <input type="text" id="EndDate" class="form-control" data-provide="datepicker">
-</div>
+<form id="form_CreateOrder">
+    <div class="input-group mb-3">
+        <span class="input-group-text">起訖時間</span>
+        <input type="text" id="StartDate", name="StartDate" class="form-control" data-provide="datepicker">
+        <span class="input-group-text">~</span>
+        <input type="text" id="EndDate" name="EndDate" class="form-control" data-provide="datepicker">
+    </div>
 
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="category">餐點別</label>
+        @Html.DropDownList("category", (IEnumerable<SelectListItem>)ViewBag.category, htmlAttributes: new { @class = "form-select" })
+    </div>
 
-<div class="input-group mb-3">
-    <label class="input-group-text" for="category">餐點別</label>
-    @Html.DropDownList("category", (IEnumerable<SelectListItem>)ViewBag.category, htmlAttributes: new { @class = "form-select" })
-</div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="type">用餐時段</label>
+        @Html.DropDownList("type", (IEnumerable<SelectListItem>)ViewBag.type, htmlAttributes: new { @class = "form-select" })
+    </div>
 
-<div class="input-group mb-3">
-    <label class="input-group-text" for="type">用餐時段</label>
-    @Html.DropDownList("type", (IEnumerable<SelectListItem>)ViewBag.type, htmlAttributes: new { @class = "form-select" })
-</div>
+    <div class="input-group mb-3">
+        <span class="input-group-text">排除星期六</span>
+        @Html.DropDownList("sat", (IEnumerable<SelectListItem>)ViewBag.yesorno, htmlAttributes: new { @class = "form-select" })
+        <span class="input-group-text">排除星期日</span>
+        @Html.DropDownList("sun", (IEnumerable<SelectListItem>)ViewBag.yesorno, htmlAttributes: new { @class = "form-select" })
+    </div>
 
-<div class="input-group mb-3">
-    <span class="input-group-text">排除星期六</span>
-    @Html.DropDownList("sat", (IEnumerable<SelectListItem>)ViewBag.yesorno, htmlAttributes: new { @class = "form-select" })
-    <span class="input-group-text">排除星期日</span>
-    @Html.DropDownList("sun", (IEnumerable<SelectListItem>)ViewBag.yesorno, htmlAttributes: new { @class = "form-select" })
-</div>
-
-<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+</form>
 
 
 <script>
@@ -46,81 +46,3 @@
 
 </script>
 
-
-
-
-@*@using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h4>MealOrders</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.Emp_Id, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Emp_Id, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Emp_Id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Category, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Category", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Type, "Type", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Type", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Status, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Status", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.OrderDatetime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.OrderDatetime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.OrderDatetime, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CreateDatetime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CreateDatetime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CreateDatetime, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }
-
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>*@

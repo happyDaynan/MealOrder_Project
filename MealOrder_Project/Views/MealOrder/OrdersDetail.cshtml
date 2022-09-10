@@ -9,49 +9,232 @@
 <button id="createorder_btn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#CreateOrderModal">我要訂餐</button>
 <br>
 
-<table class="table">
-    
-    <tr>
-        <th scope="col">用餐日期</th>
-        <th scope="col">用餐時段</th>
-        <th scope="col">員工編號</th>
-        <th scope="col">員工姓名</th>
-        <th scope="col">餐點類別</th>
-        <th scope="col">訂單狀態</th>
-        <th scope="col">金額</th>
-
-    </tr>
-    <tr>
-        @if (Model.Count().Equals(0))
-        {
-            <td>2022-09-12</td>
-            <td>午餐</td>
-            <td>110041201</td>
-            <td>AustinWu</td>
-            <td>素食</td>
-            <td>未取餐</td>
-            <td>40</td>
-        }
-        else
-        {
-            @*@foreach (var item in Model) { 
-                <td>@item.DiningDate</td>
-                <td>@item.Type</td>
-                <td>@item.Emp_Id</td>
-            }*@
-
-        }
-    </tr>
-    
-
-    @*@foreach (var item in Model)
-    {
+<table id="detail_table" class="table display">
+    <thead>
         <tr>
-            <td>
-                @item.Emp_Id
-            </td>
+            <th scope="col">用餐日期</th>
+            <th scope="col">用餐時段</th>
+            <th scope="col">員工編號</th>
+            <th scope="col">員工姓名</th>
+            <th scope="col">餐點類別</th>
+            <th scope="col">訂單狀態</th>
+            <th scope="col">金額</th>
+            <th></th>
+        </tr>        
+    </thead>
+    <tbody>
+        
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DiningDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.Type</td>
+                <td>@item.Employee.Code</td>
+                <td>@item.Employee.Name</td>
+                <td>@item.MealCategory_Detail.Category</td>
+                <td>@item.Status</td>
+                <td>@item.Amount.ToString()</td>
+                <td>
+                    <button name="edit_btn" type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateOrderModal" data-content="@item.Id">編輯</button>
+                    <button name="del_btn" type="button" class="btn btn-outline-danger btn-sm" data-content="@item.Id">刪除</button>
+                </td>
+            </tr>
             
-        </tr>
-    }*@
+        }       
+
+    </tbody>
+    
+    
 
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="CreateOrderModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="CreateOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CreateOrderModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button id="modalCreate_btn" type="button" class="btn btn-primary"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    
+    document.addEventListener("DOMContentLoaded", () => {
+
+        // Set Datatable
+        $('#detail_table').DataTable({
+            dom: "ftp",
+            language: {
+                url: "https://cdn.datatables.net/plug-ins/1.11.3/i18n/zh_Hant.json" // 中文化設定
+            },            
+            lengthMenu: [15]
+        });
+
+        const Create_modal = document.getElementById('CreateOrderModal');
+        const Modalcreate_btn = document.getElementById('modalCreate_btn');    
+
+        const DetailEdit_btn = $('button[name="edit_btn"]');
+        const DetailDel_btn = $('button[name="del_btn"]');               
+
+        Create_modal.addEventListener('show.bs.modal', loadCreateOrderpage, false);        
+
+        // 按鈕按下
+        Modalcreate_btn.addEventListener('click', callbackFormdata, false);      
+
+        // click edit_btn
+        DetailEdit_btn.click(loadEditOrderpage);
+
+        // click del_btn
+        DetailDel_btn.click(delorder);
+
+    });
+
+    function loadCreateOrderpage(event) {
+
+        // 取得點擊到的按鈕
+        const button = event.relatedTarget;
+        const modal = $(this);
+
+        // Update the modal's content.
+        const loaddata = $.ajax({
+            url: '/MealOrder/CreateOrders/',
+            type: 'GET',
+            success: function (res) {
+
+                modal.find('.modal-body').html(res);
+            }
+        });
+
+        modal.find('.modal-title').text(button.innerText);
+        modal.find('#modalCreate_btn').text('新增');
+    }
+
+    // 編輯訂單頁面
+    function loadEditOrderpage() {
+
+        const modal = $('#CreateOrderModal');
+        const editOrder_id = $(this).data('content');
+
+        $.ajax({
+            url: '/MealOrder/EditOrders/',
+            type: 'GET',
+            data: { orderid: JSON.stringify(editOrder_id) },
+            success: function (res) {
+
+                modal.find('.modal-body').html(res);
+            }
+        });
+
+        modal.find('.modal-title').text('編輯訂單');
+        modal.find('#modalCreate_btn').text('存檔');
+        modal.find('#modalCreate_btn').val(editOrder_id);
+        
+    }
+
+    function callbackFormdata() {
+        
+        const button_text = $(this).text();
+
+        // 判斷哪一種按鈕被按
+        if (button_text === '存檔') {           
+
+            return editorder();
+
+        }
+
+        if (button_text === '新增') {     
+
+            return createorder();
+        }
+        
+    }
+
+    // 編輯訂單
+    function editorder() {
+
+        const editOrder_id = $('#modalCreate_btn').val();
+        const changeOrder = $('#Category').val();
+
+        $.ajax({
+            url: '/MealOrder/EditOrders/',
+            type: 'POST',
+            data: { orderId: editOrder_id, categoryId: changeOrder },
+            success: function (res) {
+                if (res.success == true) {
+
+                    alert(res.responseText);
+                    location.reload();
+
+                } else {
+                    return alert(res.responseText);
+                }
+                
+            }
+
+        });
+              
+    }
+
+    // 新增訂單
+    function createorder() {
+
+        // Convert From Data to JavaScroipt Object
+        const Createorder_form = $('#form_CreateOrder').serializeArray();       
+        let formDataObj = {};
+
+        Createorder_form.forEach((value, key) => formDataObj[value.name] = (value.value).trim());        
+
+        $.ajax({
+            url: '/MealOrder/CreateOrders/',
+            type: 'POST',
+            data: { formdata: JSON.stringify(formDataObj) },
+            success: function (res) {
+
+                if (res.success == true) {
+
+                    alert('新增成功');
+                    location.reload();
+
+                } else {
+                    return alert(res.responseText);
+                }
+            }
+
+        });        
+    }
+
+    // 刪除訂單
+    function delorder() {
+
+        const delOrder_id = $(this).data('content');
+
+        $.ajax({
+            url: '/MealOrder/DelectOrders/',
+            type: 'POST',
+            data: { orderid: JSON.stringify(delOrder_id) },
+            success: function (res) {
+
+                if (res.success == true) {
+
+                    alert(res.responseText);
+                    location.reload();
+
+                } else {
+                    return alert(res.responseText);
+                }
+            }
+
+        });
+    }
+
+</script>

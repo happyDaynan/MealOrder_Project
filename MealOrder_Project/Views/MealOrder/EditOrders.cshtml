@@ -1,0 +1,14 @@
+﻿@model MealOrder_Project.Models.MealOrders
+
+@{
+    ViewBag.Title = "EditOrders";
+    
+}
+
+<h2>用餐日期: @ViewBag.diningdate</h2>
+<h2>用餐類別: @ViewBag.type</h2>
+<div class="input-group mb-3">
+    <label class="input-group-text" for="type">訂餐類別</label>
+    @Html.DropDownList("Category", (IEnumerable<SelectListItem>)ViewBag.Category, htmlAttributes: new { @class = "form-select" })
+</div>
+

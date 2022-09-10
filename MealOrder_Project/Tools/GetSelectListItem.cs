@@ -7,7 +7,7 @@ namespace MealOrder_Project
 {
     public class GetSelectListItem
     {
-        public static List<SelectListItem> Category()
+        public static List<SelectListItem> Category(int? selected_Category = null)
         {
             using (MyCompanyEntities CompanyEntities = new MyCompanyEntities())
             {
@@ -15,17 +15,18 @@ namespace MealOrder_Project
 
                 List<SelectListItem> _CategorySelectListItem = new List<SelectListItem>
                 {
-                    new SelectListItem { Text = "--請選擇--", Value = "", Selected = true}
+                    new SelectListItem { Text = "--請選擇--", Value = "", Selected = !selected_Category.HasValue}
                 };
 
                 foreach (var item in _CategoryList)
-                {
+                {                   
                     _CategorySelectListItem.Add(new SelectListItem{ 
                             Text = item.Category,
                             Value = item.Id.ToString(),
-                            Selected = false
+                            Selected = selected_Category.HasValue && item.Id.Equals(selected_Category)
                     });
-                }                
+                }              
+
 
                 return _CategorySelectListItem;
 
@@ -34,7 +35,7 @@ namespace MealOrder_Project
         }
 
 
-        public static List<SelectListItem> Type()
+        public static List<SelectListItem> Type(int? selected_type = null)
         {
             using (MyCompanyEntities CompanyEntities = new MyCompanyEntities())
             {
@@ -42,7 +43,7 @@ namespace MealOrder_Project
 
                 List<SelectListItem> _TypeSelectListItem = new List<SelectListItem>
                 {
-                    new SelectListItem{ Text = "--請選擇--", Value = "", Selected = true }
+                    new SelectListItem{ Text = "--請選擇--", Value = "", Selected = !selected_type.HasValue }
                 };
 
                 foreach (var item in _TypeList)
@@ -51,8 +52,7 @@ namespace MealOrder_Project
                         
                         Text = item.Name,
                         Value = item.Id.ToString(),
-                        Selected = false
-
+                        Selected = selected_type.HasValue && item.Id.Equals(selected_type)
                     });
                 }               
 

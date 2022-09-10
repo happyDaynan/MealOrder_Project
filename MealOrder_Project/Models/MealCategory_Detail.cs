@@ -22,7 +22,7 @@ namespace MealOrder_Project.Models
     
         public int Id { get; set; }
         public string Category { get; set; }
-        public Nullable<decimal> Amount { get; set; }
+        public decimal Amount { get; set; }
         public Nullable<System.DateTime> Modifydatetime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
