@@ -27,7 +27,7 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.DiningDate</td>
+                <td>@item.DiningDate.ToString("yyyy-MM-dd")</td>
                 <td>@item.Type</td>
                 <td>@item.Employee.Code</td>
                 <td>@item.Employee.Name</td>
@@ -35,7 +35,7 @@
                 <td>@item.Status</td>
                 <td>@item.Amount.ToString()</td>
                 <td>
-                    <button name="edit_btn" type="button" class="btn btn-outline-primary btn-sm" data-content="@item.Id">編輯</button>
+                    <button name="edit_btn" type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#CreateOrderModal" data-content="@item.Id">編輯</button>
                     <button name="del_btn" type="button" class="btn btn-outline-danger btn-sm" data-content="@item.Id">刪除</button>
                 </td>
             </tr>
@@ -68,6 +68,7 @@
 
 
 <script>
+    
     document.addEventListener("DOMContentLoaded", () => {
 
         // Set Datatable
@@ -83,14 +84,15 @@
         const Modalcreate_btn = document.getElementById('modalCreate_btn');     
 
         const DetailEdit_btn = $('button[name="edit_btn"]');
-        const DetailDel_btn = $('button[name="del_btn"]');
-               
+        const DetailDel_btn = $('button[name="del_btn"]');               
 
         Create_modal.addEventListener('show.bs.modal', loadCreateOrderpage, false);        
 
+        // 按鈕按下
         Modalcreate_btn.addEventListener('click', callbackFormdata, false);      
 
-        DetailEdit_btn.click(editorder);
+        // click edit_btn
+        DetailEdit_btn.click(loadEditOrderpage);
 
     });
 
@@ -114,7 +116,73 @@
         modal.find('#modalCreate_btn').text('新增');
     }
 
+    // 編輯訂單頁面
+    function loadEditOrderpage() {
+
+        const modal = $('#CreateOrderModal');
+        const editOrder_id = $(this).data('content');
+
+        $.ajax({
+            url: '/MealOrder/EditOrders/',
+            type: 'GET',
+            data: { orderid: JSON.stringify(editOrder_id) },
+            success: function (res) {
+
+                modal.find('.modal-body').html(res);
+            }
+        });
+
+        modal.find('.modal-title').text('編輯訂單');
+        modal.find('#modalCreate_btn').text('存檔');
+        modal.find('#modalCreate_btn').val(editOrder_id);
+        
+    }
+
     function callbackFormdata() {
+        
+        const button_text = $(this).text();
+
+        // 判斷哪一種按鈕被按
+        if (button_text === '存檔') {           
+
+            return editorder();
+
+        }
+
+        if (button_text === '新增') {     
+
+            return createorder();
+        }
+        
+    }
+
+    function editorder() {
+
+        const editOrder_id = $('#modalCreate_btn').val();
+        const changeOrder = $('#Category').val();
+
+        $.ajax({
+            url: '/MealOrder/EditOrders/',
+            type: 'POST',
+            data: { orderId: editOrder_id, categoryId: changeOrder },
+            success: function (res) {
+                if (res.success == true) {
+
+                    alert('儲存成功');
+                    location.reload();
+
+                } else {
+                    return alert(`res.responseText`);
+                }
+                
+            }
+
+        });
+              
+    }
+
+    // 新增訂單
+    function createorder() {
 
         // Convert From Data to JavaScroipt Object
         const Createorder_form = $('#form_CreateOrder').serializeArray();       
@@ -139,12 +207,6 @@
             }
 
         });        
-    }
-
-    function editorder() {
-
-        const editOrder_id = $(this).data('content');
-              
     }
 
     function delorder() {

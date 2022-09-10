@@ -15,6 +15,9 @@ namespace MealOrder_Project.Controllers
     {
         private readonly MyCompanyEntities CompanyEntities = new MyCompanyEntities();
 
+        private bool success_bool = true;
+        private string restext = "";
+
         // Orders Detail
         public ActionResult OrdersDetail()
         {
@@ -35,9 +38,7 @@ namespace MealOrder_Project.Controllers
 
         [HttpPost]
         public ActionResult CreateOrders(string formdata)
-        {
-            string restext = "";
-            bool success_bool = true;
+        {                       
 
             // Convert string to DictionaryObject
             var Formdata = JsonConvert.DeserializeObject<Dictionary<string, string>>(formdata);
@@ -69,6 +70,64 @@ namespace MealOrder_Project.Controllers
             return Json(new { success = success_bool, responseText = restext }, JsonRequestBehavior.AllowGet);
         }
 
+        // 刪除訂單
+        [HttpPost]
+        public ActionResult DelectOrders(string orderid)
+        {
+            OrdersGenerator delorder = new OrdersGenerator()
+            {
+                OrderId = Convert.ToInt32(orderid)
+            };
+
+            success_bool = delorder.DelectOrders();
+
+            restext = (success_bool) ? "刪除成功" : "刪除失敗";
+
+            return Json(new { success = success_bool, responseText = restext }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EditOrders(string orderid)
+        {                    
+            
+            var _orderid = Convert.ToInt32(orderid);
+
+            var editdata = CompanyEntities.MealOrders.Where(m => m.Id.Equals(_orderid)).FirstOrDefault();
+
+            if (editdata is null)
+            {
+                return JavaScript("alert(\"無此訂單!\")");
+            }
+
+            var selected_Category = editdata.Category;            
+
+            ViewBag.diningdate = editdata.DiningDate.ToString("yyyy-MM-dd");
+            ViewBag.type = editdata.MealType_Detail.Name;
+
+
+            ViewBag.category = GetSelectListItem.Category(selected_Category);            
+            
+
+            return PartialView();
+        }
+
+        [HttpPost]
+        public ActionResult EditOrders(string orderId, string categoryId)
+        {
+            var _orderid = Convert.ToInt32(orderId);
+            var _categoryId = Convert.ToInt32(categoryId);
+            
+            OrdersGenerator editorder = new OrdersGenerator
+            {
+                OrderId = _orderid,
+                Category = _categoryId
+            };
+
+            success_bool = editorder.EditOrders();
+
+            restext = (success_bool) ? "編輯成功" : "編輯失敗";
+
+            return Json(new { success = success_bool, responseText = restext }, JsonRequestBehavior.AllowGet);
+        }
 
 
     }

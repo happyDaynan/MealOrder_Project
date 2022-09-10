@@ -567,6 +567,7 @@
     <Content Include="Scripts\jquery-3.6.0.min.map" />
     <Content Include="Views\MealOrder\CreateOrders.cshtml" />
     <Content Include="Views\MealOrder\OrdersDetail.cshtml" />
+    <Content Include="Views\MealOrder\EditOrders.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

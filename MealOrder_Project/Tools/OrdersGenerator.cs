@@ -11,6 +11,7 @@ namespace MealOrder_Project.Tools
 
     public class OrdersGenerator
     {
+        public int OrderId { private get; set; }
         public DateTime Start { private get; set; }
         public DateTime End { private get; set; }
         public int Category { private get; set; }
@@ -82,5 +83,58 @@ namespace MealOrder_Project.Tools
             return orders;
         }
 
+        // 編輯訂單
+        public bool EditOrders()
+        {
+            using (MyCompanyEntities db = new MyCompanyEntities())
+            {
+                bool edittype = true;
+
+                var editdata = db.MealOrders.Find(OrderId);
+
+                if (!editdata.Category.Equals(Category))
+                {
+                    editdata.Category = Category;
+                }
+
+                try
+                {
+                   db.SaveChanges();
+                }
+                catch
+                {
+                    edittype = false;
+                }
+
+                return edittype;
+            }
+                
+        }
+
+
+        // 刪除
+        public bool DelectOrders()
+        {
+            using (MyCompanyEntities db = new MyCompanyEntities())
+            {
+                bool deltype = true;
+
+                var deldata = db.MealOrders.Find(OrderId);           
+
+                db.MealOrders.Remove(deldata);
+                
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    deltype = false;
+                }
+
+                return deltype;
+            }
+        }
+        
     }
 }
