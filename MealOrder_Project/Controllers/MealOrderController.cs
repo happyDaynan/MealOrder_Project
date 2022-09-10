@@ -112,14 +112,11 @@ namespace MealOrder_Project.Controllers
 
         [HttpPost]
         public ActionResult EditOrders(string orderId, string categoryId)
-        {
-            var _orderid = Convert.ToInt32(orderId);
-            var _categoryId = Convert.ToInt32(categoryId);
-            
+        {                        
             OrdersGenerator editorder = new OrdersGenerator
             {
-                OrderId = _orderid,
-                Category = _categoryId
+                OrderId = Convert.ToInt32(orderId),
+                Category = Convert.ToInt32(categoryId)
             };
 
             success_bool = editorder.EditOrders();

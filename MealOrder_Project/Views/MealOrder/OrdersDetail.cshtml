@@ -81,7 +81,7 @@
         });
 
         const Create_modal = document.getElementById('CreateOrderModal');
-        const Modalcreate_btn = document.getElementById('modalCreate_btn');     
+        const Modalcreate_btn = document.getElementById('modalCreate_btn');    
 
         const DetailEdit_btn = $('button[name="edit_btn"]');
         const DetailDel_btn = $('button[name="del_btn"]');               
@@ -93,6 +93,9 @@
 
         // click edit_btn
         DetailEdit_btn.click(loadEditOrderpage);
+
+        // click del_btn
+        DetailDel_btn.click(delorder);
 
     });
 
@@ -156,6 +159,7 @@
         
     }
 
+    // 編輯訂單
     function editorder() {
 
         const editOrder_id = $('#modalCreate_btn').val();
@@ -168,11 +172,11 @@
             success: function (res) {
                 if (res.success == true) {
 
-                    alert('儲存成功');
+                    alert(res.responseText);
                     location.reload();
 
                 } else {
-                    return alert(`res.responseText`);
+                    return alert(res.responseText);
                 }
                 
             }
@@ -202,16 +206,35 @@
                     location.reload();
 
                 } else {
-                    return alert(`res.responseText`);
+                    return alert(res.responseText);
                 }
             }
 
         });        
     }
 
+    // 刪除訂單
     function delorder() {
 
         const delOrder_id = $(this).data('content');
+
+        $.ajax({
+            url: '/MealOrder/DelectOrders/',
+            type: 'POST',
+            data: { orderid: JSON.stringify(delOrder_id) },
+            success: function (res) {
+
+                if (res.success == true) {
+
+                    alert(res.responseText);
+                    location.reload();
+
+                } else {
+                    return alert(res.responseText);
+                }
+            }
+
+        });
     }
 
 </script>
