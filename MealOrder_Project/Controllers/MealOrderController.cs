@@ -13,7 +13,7 @@ namespace MealOrder_Project.Controllers
 {
     public class MealOrderController : Controller
     {
-        private readonly MyCompanyEntities CompanyEntities = new MyCompanyEntities();
+        private readonly MyCompanyEntities CompanyEntities = new MyCompanyEntities();  
 
         private bool success_bool = true;
         private string restext = "";
